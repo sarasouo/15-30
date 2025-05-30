@@ -1,0 +1,560 @@
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PanificaApp - Gerenciador do Seu Jorge</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  /* Resets e básico */
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0; 
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #fef9f1;
+    color: #3d3d3d;
+    min-height: 100vh;
+  }
+
+  /* --- TELA DE LOGIN --- */
+  #tela-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #FFB347 0%, #FFCC33 100%);
+    background-attachment: fixed;
+    padding: 20px;
+    position: relative;
+  }
+  #tela-login .login-box {
+    background: #fff9f0;
+    padding: 35px 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(255, 122, 1, 0.3);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+  }
+  #tela-login .logo {
+    font-size: 52px;
+    margin-bottom: 10px;
+    color: #d07300;
+    text-shadow: 1px 1px 3px #b05e00;
+  }
+  #tela-login h2 {
+    font-weight: 700;
+    font-size: 30px;
+    margin-bottom: 30px;
+    color: #d07300;
+  }
+  #tela-login input {
+    width: 100%;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: 2px solid #ffb347;
+    transition: border-color 0.3s ease;
+    outline: none;
+  }
+  #tela-login input:focus {
+    border-color: #ff9900;
+    box-shadow: 0 0 8px #ff9a0d;
+  }
+  #tela-login button {
+    width: 100%;
+    padding: 14px;
+    font-size: 20px;
+    background-color: #ff9900;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(255, 153, 0, 0.3);
+    transition: background-color 0.3s ease;
+  }
+  #tela-login button:hover {
+    background-color: #e68200;
+  }
+  #tela-login .padaria-icone {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    font-size: 60px;
+    color: #ffbf47ff;
+    opacity: 0.25;
+    user-select: none;
+  }
+  #tela-login #btn-visitante {
+    margin-top: 10px;
+    background-color: #b57c0d;
+  }
+  #tela-login #btn-visitante:hover {
+    background-color: #9a680b;
+  }
+
+  /* --- TELA PRINCIPAL --- */
+  #tela-principal {
+    display: none;
+    min-height: 100vh;
+    background-color: #fffbf0;
+    padding: 20px 25px 100px; /* bottom for footer */
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffb347;
+    padding: 15px 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px #ffb347aa;
+    margin-bottom: 30px;
+    color: #5c3300;
+  }
+  header h1 {
+    font-weight: 900;
+    font-size: 24px;
+  }
+  header .usuario {
+    font-weight: 600;
+    font-size: 18px;
+  }
+  header button {
+    background: #d07300;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  header button:hover {
+    background-color: #b05e00;
+  }
+
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  section {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 6px 18px #ffd8a233;
+    padding: 25px 30px;
+    margin-bottom: 30px;
+  }
+  section h2 {
+    color: #d07300;
+    font-weight: 700;
+    font-size: 22px;
+    margin-bottom: 25px;
+    text-align: center;
+    user-select: none;
+  }
+
+  /* Formulários e campos */
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+  }
+  input[type=text], 
+  input[type=number], 
+  select {
+    font-size: 17px;
+    padding: 12px 18px;
+    border-radius: 12px;
+    border: 2px solid #f8c471;
+    min-width: 150px;
+    flex-grow: 1;
+    transition: border-color 0.3s ease;
+  }
+  input[type=text]:focus, input[type=number]:focus, select:focus {
+    border-color: #ff9900;
+    box-shadow: 0 0 10px #ffb347aa;
+    outline: none;
+  }
+
+  button[type=submit] {
+    background-color: #ff9900;
+    border: none;
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+    border-radius: 15px;
+    padding: 14px 28px;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(255, 153, 0, 0.5);
+    flex-grow: 0;
+    min-width: 180px;
+    transition: background-color 0.3s ease;
+  }
+  button[type=submit]:hover {
+    background-color: #e68200;
+  }
+
+  /* Relatórios */
+  #relatorios {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .relatorio-card {
+    flex: 1 1 250px;
+    background-color: #fff3e0;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px #ffbb4477;
+    padding: 22px;
+    font-weight: 700;
+    color: #5c3300;
+    user-select: none;
+    text-align: center;
+    font-size: 20px;
+  }
+  .relatorio-card span.valor {
+    display: block;
+    font-size: 36px;
+    margin-top: 10px;
+    color: #b05e00;
+  }
+
+  /* Lista Fiados */
+  #lista-fiados {
+    max-height: 280px;
+    overflow-y: auto;
+    border: 2px solid #ffd18a;
+    border-radius: 16px;
+    padding: 15px;
+    box-shadow: inset 0 0 15px #ffbb4433;
+    background: #fff9f0;
+  }
+  #lista-fiados div {
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #ffcc77;
+    font-weight: 600;
+    font-size: 18px;
+    color: #6a3800;
+  }
+  #lista-fiados div span.dias {
+    font-weight: 400;
+    font-size: 13px;
+    color: #bf4500;
+    margin-left: 8px;
+  }
+  #lista-fiados div:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  /* Suporte - vídeo */
+  #suporte-video {
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(222,159,0,0.3);
+    max-width: 720Spx;
+    margin: 0 auto;
+    display: block;
+  }
+
+  /* Rodapé */
+  footer {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background-color: #ffb347;
+    padding: 14px 20px;
+    text-align: center;
+    font-weight: 600;
+    color: #631f00;
+    box-shadow: 0 -6px 15px #ffbb4499;
+    user-select: none;
+    z-index: 100;
+  }
+
+  /* Responsividade */
+  @media (max-width: 640px) {
+    main {
+      padding: 0 10px;
+    }
+    #relatorios {
+      flex-direction: column;
+      gap: 20px;
+    }
+    .relatorio-card {
+      font-size: 18px;
+    }
+    .relatorio-card span.valor {
+      font-size: 28px;
+    }
+    form {
+      flex-direction: column;
+      gap: 12px;
+    }
+    input, select, button[type=submit] {
+      width: 100%;
+      flex-grow: 0;
+      min-width: auto;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Tela Login -->
+<div id="tela-login" aria-label="Tela de login do PanificaApp">
+  <div class="login-box" role="main">
+    <div class="logo" aria-hidden="true">🍞</div>
+    <h2>Bem-vindo ao PanificaApp</h2>
+    <input type="text" id="input-usuario" placeholder="Usuário" aria-label="Campo para usuário" autocomplete="username" />
+    <input type="password" id="input-senha" placeholder="Senha" aria-label="Campo para senha" autocomplete="current-password" />
+    <button id="btn-login" aria-label="Entrar no aplicativo">Entrar</button>
+    <button id="btn-visitante" aria-label="Entrar como visitante">Entrar como Visitante</button>
+  </div>
+</div>
+
+<!-- Tela Principal -->
+<div id="tela-principal" aria-live="polite" aria-label="Painel principal do PanificaApp">
+
+  <header>
+    <h1>PanificaApp 🍞</h1>
+    <div class="usuario" aria-label="Nome do usuário logado"></div>
+    <button id="btn-logout" aria-label="Sair do aplicativo">Sair</button>
+  </header>
+
+  <main>
+    <!-- Registro vendas e gastos -->
+    <section aria-label="Registrar vendas e despesas">
+      <h2>Registrar Venda ou Despesa</h2>
+        <form id="form-registro">
+       <input type="text" name="descricao" placeholder="Descrição" required>
+       <input type="number" name="valor" placeholder="Valor" required>
+       <select name="tipo">
+           <option value="venda">Venda</option>
+           <option value="gasto">Gasto</option>
+       </select>
+       <button type="submit">Registrar</button>
+   </form>
+   
+    </section>
+
+    <!-- Resumo do Dia -->
+    <section aria-label="Resumo do dia financeiro">
+      <h2>Resumo do Dia</h2>
+      <div id="resumo-dia" style="text-align:center; font-size:1.4rem; color:#7a4300; font-weight:bold; margin-top:15px;">
+        Carregando...
+      </div>
+    </section>
+
+    <!-- Gerenciar fiados -->
+<section aria-label="Gerenciar fiados">
+  <h2>Clientes Fiado</h2>
+  <form id="form-fiado" aria-describedby="desc-fiado">
+    <input type="text" id="nome-fiado" placeholder="Nome do cliente" aria-label="Nome do cliente fiado" required />
+    <input type="number" id="valor-fiado" placeholder="Valor (R$)" aria-label="Valor fiado" required min="0.01" step="0.01"/>
+    <input type="number" id="peso-fiado" placeholder="Peso (kg)" aria-label="Peso do produto" required min="0.01" step="0.01"/>
+    <input type="text" id="produto-fiado" placeholder="Produto comprado" aria-label="Produto do cliente fiado" required />
+    <button type="submit" aria-label="Registrar fiado">Registrar Fiado</button>
+  </form>
+  <div id="lista-fiados" tabindex="0" aria-label="Lista de clientes com fiado" role="region" aria-live="polite"></div>
+</section>
+
+
+    <!-- Relatórios -->
+    <section aria-label="Relatórios financeiros">
+      <h2>Relatórios</h2>
+      <div id="relatorios" role="region" aria-live="polite">
+        <div class="relatorio-card" aria-label="Total de vendas">
+          Vendas Totais
+          <span class="valor" id="relatorio-vendas">R$ 0,00</span>
+        </div>
+        <div class="relatorio-card" aria-label="Total de gastos">
+          Gastos Totais
+          <span class="valor" id="relatorio-gastos">R$ 0,00</span>
+        </div>
+        <div class="relatorio-card" aria-label="Lucro total">
+          Lucro Total
+          <span class="valor" id="relatorio-lucro">R$ 0,00</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Suporte -->
+    <section aria-label="Suporte e ajuda">
+      <h2>Suporte</h2>
+      <video width="600" controls>
+  <source src="video/suporte.mp4" type="video/mp4">
+  Seu navegador não suporta o elemento de vídeo.
+</video>
+
+    </section>
+  </main>
+
+  <footer>
+    © 2025 - PanificaApp
+  </footer>
+</div>
+
+<script>
+  // Estado
+  let vendas = [];
+  let gastos = [];
+  let fiados = [];
+
+  // Elementos
+  const telaLogin = document.getElementById('tela-login');
+  const telaPrincipal = document.getElementById('tela-principal');
+  const btnLogin = document.getElementById('btn-login');
+  const btnLogout = document.getElementById('btn-logout');
+  const btnVisitante = document.getElementById('btn-visitante');
+  const usuarioDisplay = document.querySelector('header .usuario');
+  const resumoDiaEl = document.getElementById('resumo-dia');
+
+  // Login padrão: permitir qualquer usuário/senha não vazia
+  btnLogin.addEventListener('click', () => {
+    const usuarioInput = document.getElementById('input-usuario').value.trim();
+    const senhaInput = document.getElementById('input-senha').value.trim();
+    
+    if(usuarioInput.length === 0 || senhaInput.length === 0){
+      alert('Por favor, preencha usuário e senha.');
+      return;
+    }
+    
+    telaLogin.style.display = 'none';
+    telaPrincipal.style.display = 'block';
+    usuarioDisplay.textContent = `Olá, ${usuarioInput}`;
+    vendas = [];
+    gastos = [];
+    fiados = [];
+    atualizarRelatorios();
+  });
+
+  // Botão "Entrar como Visitante" para acesso rápido
+  btnVisitante.addEventListener('click', () => {
+    telaLogin.style.display = 'none';
+    telaPrincipal.style.display = 'block';
+    usuarioDisplay.textContent = `Olá, Visitante`;
+    vendas = [];
+    gastos = [];
+    fiados = [];
+    atualizarRelatorios();
+  });
+
+  btnLogout.addEventListener('click', () => {
+    vendas = [];
+    gastos = [];
+    fiados = [];
+    telaPrincipal.style.display = 'none';
+    telaLogin.style.display = 'flex';
+    // Limpar campos login
+    document.getElementById('input-usuario').value = '';
+    document.getElementById('input-senha').value = '';
+  });
+
+  // Atualiza relatórios e resumo do dia
+  function atualizarRelatorios() {
+    const totalVendas = vendas.reduce((acc, v) => acc + v.valor, 0);
+    const totalGastos = gastos.reduce((acc, g) => acc + g.valor, 0);
+    const lucro = totalVendas - totalGastos;
+
+    document.getElementById('relatorio-vendas').textContent = `R$ ${totalVendas.toFixed(2)}`;
+    document.getElementById('relatorio-gastos').textContent = `R$ ${totalGastos.toFixed(2)}`;
+    document.getElementById('relatorio-lucro').textContent = `R$ ${lucro.toFixed(2)}`;
+
+    atualizarResumoDia();
+    atualizarListaFiados();
+  }
+
+  // Atualiza resumo do dia (considera registros adicionados hoje)
+  function atualizarResumoDia(){
+    const hojeStr = new Date().toISOString().slice(0,10);
+    
+    const vendasHoje = vendas.filter(v => v.data && v.data.startsWith(hojeStr));
+    const gastosHoje = gastos.filter(g => g.data && g.data.startsWith(hojeStr));
+    const totalVendasHoje = vendasHoje.reduce((acc, v) => acc + v.valor, 0);
+    const totalGastosHoje = gastosHoje.reduce((acc, g) => acc + g.valor, 0);
+    const lucroHoje = totalVendasHoje - totalGastosHoje;
+
+    resumoDiaEl.innerHTML = `
+      <p>Vendas: <strong>R$ ${totalVendasHoje.toFixed(2)}</strong></p>
+      <p>Gastos: <strong>R$ ${totalGastosHoje.toFixed(2)}</strong></p>
+      <p>Lucro: <strong>R$ ${lucroHoje.toFixed(2)}</strong></p>
+    `;
+  }
+
+  // Mostrar lista dos fiados
+fun// Mostrar lista dos fiados
+function atualizarListaFiados() {
+  const lista = document.getElementById('lista-fiados');
+  if (fiados.length === 0) {
+    lista.innerHTML = '<p>Nenhum cliente com fiado registrado.</p>';
+    return;
+  }
+  const hoje = new Date();
+  lista.innerHTML = '';
+  fiados.forEach(({ nome, valor, peso, produto, data }) => {
+    const diffMs = hoje - new Date(data);
+    const dias = Math.floor(diffMs / (1000 * 3600 * 24));
+    const aviso = dias > 7 ? '⚠️ ' : '';
+    const div = document.createElement('div');
+    div.textContent = `${aviso}${nome} - R$ ${valor.toFixed(2)} (Produto: ${produto}, Peso: ${peso.toFixed(2)} kg) (há ${dias} dia${dias > 1 ? 's' : ''})`;
+    if (dias > 7) div.style.color = '#d9534f';
+    lista.appendChild(div);
+  });
+}
+
+
+  // Formulário registro vendas e gastos
+  document.getElementById('form-registro').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const descricao = e.target.descricao.value.trim();
+    const valor = parseFloat(e.target.valor.value);
+    const tipo = e.target.tipo.value;
+    if(!descricao || isNaN(valor) || valor <= 0) {
+      alert('Preencha todos os campos corretamente!');
+      return;
+    }
+    const registro = {descricao, valor, data: new Date().toISOString()};
+    if(tipo === 'venda') {
+      vendas.push(registro);
+    } else {
+      gastos.push(registro);
+    }
+    e.target.reset();
+    atualizarRelatorios();
+  });
+
+  /// Formulário registro fiados
+document.getElementById('form-fiado').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const nome = e.target['nome-fiado'].value.trim();
+  const valor = parseFloat(e.target['valor-fiado'].value);
+  const peso = parseFloat(e.target['peso-fiado'].value);
+  const produto = e.target['produto-fiado'].value.trim();
+
+  if (!nome || isNaN(valor) || valor <= 0 || isNaN(peso) || peso <= 0 || !produto) {
+    alert('Por favor, preencha todos os campos do fiado corretamente!');
+    return;
+  }
+
+  fiados.push({ nome, valor, peso, produto, data: new Date() });
+  e.target.reset();
+  atualizarRelatorios();
+});
+
+
+  // Inicializa relatórios corretamente
+  atualizarRelatorios();
+</script>
+
+</body>
+</html>
